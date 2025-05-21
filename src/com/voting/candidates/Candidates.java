@@ -19,7 +19,9 @@ public class Candidates extends javax.swing.JInternalFrame {
         ((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null);
         
          tbm_candidates = (DefaultTableModel) CandidateTable.getModel();
+         candidates_controller.CandidateSchoolYear();
          showRecord();
+         
     }
 
     public static void showRecord(){
@@ -165,7 +167,7 @@ public class Candidates extends javax.swing.JInternalFrame {
         can_course.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
 
         schoolyear.setEditable(false);
-        schoolyear.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2020-2021", "2021-2022", "2022-2023", "2023-2024", "2024-2025", "2025-2026", "2026-2027" }));
+        schoolyear.setEnabled(false);
         schoolyear.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         schoolyear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

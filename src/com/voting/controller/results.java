@@ -2,6 +2,8 @@ package com.voting.controller;
 
 import com.voting.connection.database;
 import com.voting.main.dashboard;
+import com.voting.model.SchoolYearModel;
+import static com.voting.result.Result.DashboardSY;
 import static com.voting.result.Result.overall_ave;
 import static com.voting.result.Result.total_students;
 import java.sql.SQLException;
@@ -11,7 +13,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class results {
     public static String query;
-    
+    public static String sy;
     
     private static int getCount(String query) throws SQLException {
         database.ps = database.conn.prepareStatement(query);
@@ -22,7 +24,7 @@ public class results {
         return 0;
     }
     
-    public static void updateCourseVotes(String courseFilter, JProgressBar progressBar) {
+    public static void updateCourseVotes(String courseFilter, JProgressBar progressBar, SchoolYearModel model) {
         try {
             database.openConn();
 
@@ -66,8 +68,8 @@ public class results {
         }
     }
     
-    public static void updateCandidateVotes(String position, String voteColumn, DefaultTableModel model) {
-        model.setRowCount(0);
+    public static void updateCandidateVotes(String position, String voteColumn, DefaultTableModel tbm, SchoolYearModel model) {
+        tbm.setRowCount(0);
         String query = "SELECT c.fname, c.mname, c.lname, COUNT(v.voteid) AS votes " +
                        "FROM tb_candidates c " +
                        "JOIN tb_vote v ON CONCAT(c.fname, ' ', c.mname, ' ', c.lname) = v." + voteColumn + " " +
@@ -78,7 +80,7 @@ public class results {
             database.openConn();
             database.ps = database.conn.prepareStatement(query);
             database.ps.setString(1, position);
-            database.ps.setString(2, dashboard.SchoolYear);
+            database.ps.setString(2, sy);
             database.rs = database.ps.executeQuery();
 
             while (database.rs.next()) {
@@ -86,11 +88,33 @@ public class results {
                                   database.rs.getString("mname") + " " +
                                   database.rs.getString("lname");
                 int votes = database.rs.getInt("votes");
-                model.addRow(new Object[]{fullName, votes});
+                tbm.addRow(new Object[]{fullName, votes});
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         } finally {
+            database.closeConn();
+        }
+    }
+    
+    public static void schoolyear(){
+        
+        try{
+            database.openConn();
+            
+            String query = "SELECT * FROM `tb_schoolyear` WHERE isActive = 1 ";
+            database.ps = database.conn.prepareStatement(query);
+            database.rs =  database.ps.executeQuery();
+            
+            while(database.rs.next()) {
+//                model.setSchoolyear (database.rs.getString("sy") );
+                sy = database.rs.getString("sy");
+                DashboardSY.setText(database.rs.getString("sy"));
+            }
+            
+        }catch(SQLException error){
+            JOptionPane.showMessageDialog(null, error);
+        }finally {
             database.closeConn();
         }
     }

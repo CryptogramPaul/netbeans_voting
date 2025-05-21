@@ -3,6 +3,7 @@ package com.voting.result;
 import com.voting.controller.results;
 import com.voting.controller.results_old;
 import com.voting.main.dashboard;
+import com.voting.model.SchoolYearModel;
 import javax.swing.table.DefaultTableModel;
 
 public class Result extends javax.swing.JInternalFrame {
@@ -17,7 +18,9 @@ public class Result extends javax.swing.JInternalFrame {
     public static DefaultTableModel tbm_businessmanager;
     public static DefaultTableModel tbm_ass_bm;
     public static DefaultTableModel tbm_pio;
-    public Result() {
+    
+    
+    public Result(SchoolYearModel model) {
         initComponents();
         ((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null);
         
@@ -33,7 +36,7 @@ public class Result extends javax.swing.JInternalFrame {
         tbm_ass_bm = (DefaultTableModel) ass_bm.getModel();
         tbm_pio = (DefaultTableModel) pio.getModel();
          
-        ShowNewResultController();
+        ShowNewResultController(model);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -761,25 +764,25 @@ public class Result extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ShowNewResultController() {
-            DashboardSY.setText(dashboard.SchoolYear);
-          results.updateCourseVotes("course IN ('BSED', 'BTVTED', 'BEED')", bsed);
-          results.updateCourseVotes("course = 'BSICT'", bsict);
-          results.updateCourseVotes("course = 'BSCJE'", bscje);
-          results.updateCourseVotes("course = 'BSIT'", bsit);
-          results.updateCourseVotes("course = 'BSHM'", bshm);
+    private void ShowNewResultController(SchoolYearModel model) {
+          results.schoolyear();  
+          results.updateCourseVotes("course IN ('BSED', 'BTVTED', 'BEED')", bsed, model);
+          results.updateCourseVotes("course = 'BSICT'", bsict, model);
+          results.updateCourseVotes("course = 'BSCJE'", bscje, model);
+          results.updateCourseVotes("course = 'BSIT'", bsit, model);
+          results.updateCourseVotes("course = 'BSHM'", bshm, model);
           results.GetOverallAve();
-          results.updateCandidateVotes("CHAIRMAN", "cm", tbm_chairman);
-          results.updateCandidateVotes("VIVE CHAIRMAN", "vcm", tbm_vicechairman);
-          results.updateCandidateVotes("SECRETARY", "sec", tbm_secretary);
-          results.updateCandidateVotes("ASSISTANT SECRETARY", "assec", tbm_ass_sec);
-          results.updateCandidateVotes("TREASURER", "tre", tbm_treasurer);
-          results.updateCandidateVotes("ASSISTANT TREASURER", "astre", tbm_treasurer);
-          results.updateCandidateVotes("AUDITOR", "aud", tbm_auditor);
-          results.updateCandidateVotes("ASSISTANT AUDITOR", "asaud", tbm_ass_auditor);
-          results.updateCandidateVotes("BUSINESS MANAGER", "bm", tbm_businessmanager);
-          results.updateCandidateVotes("ASSISTANT BUSINESS MANAGER", "abm", tbm_ass_bm);
-          results.updateCandidateVotes("PIO", "pio", tbm_pio);
+          results.updateCandidateVotes("CHAIRMAN", "cm", tbm_chairman, model);
+          results.updateCandidateVotes("VICE CHAIRMAN", "vcm", tbm_vicechairman, model);
+          results.updateCandidateVotes("SECRETARY", "sec", tbm_secretary, model);
+          results.updateCandidateVotes("ASSISTANT SECRETARY", "assec", tbm_ass_sec, model);
+          results.updateCandidateVotes("TREASURER", "tre", tbm_treasurer, model);
+          results.updateCandidateVotes("ASSISTANT TREASURER", "astre", tbm_treasurer, model);
+          results.updateCandidateVotes("AUDITOR", "aud", tbm_auditor, model);
+          results.updateCandidateVotes("ASSISTANT AUDITOR", "asaud", tbm_ass_auditor, model);
+          results.updateCandidateVotes("BUSINESS MANAGER", "bm", tbm_businessmanager, model);
+          results.updateCandidateVotes("ASSISTANT BUSINESS MANAGER", "abm", tbm_ass_bm, model);
+          results.updateCandidateVotes("PIO", "pio", tbm_pio, model);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -10,7 +10,17 @@ public class StudentModel {
     private String username;
     private String password;
     private String status;
+    private String SchoolYear;
 
+    public String getSchoolYear() {
+        return SchoolYear;
+    }
+
+    public void setSchoolYear(String SchoolYear) {
+        this.SchoolYear = SchoolYear;
+    }
+    
+    
     public int getStudid() {
         return studid;
     }

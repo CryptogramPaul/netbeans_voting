@@ -22,24 +22,29 @@ import static com.voting.studentrecords.StudentRecords.showRecord;
 import static com.voting.studentrecords.StudentRecords.tbm_student;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import static com.voting.studentrecords.StudentRecords.student_sy;
 //import javax.swing.table.DefaultTableModel;
 //import com.voting.studentrecords.StudentRecords.tbm_student;
 
 public class students {
     private static String query;
+    private static String sy;
     
     public static void showrecord(String filter) {  
+//        System.out.print(sy);
         tbm_student.setRowCount(0);  
         try{            
             
             database.openConn();
             if (!filter.equalsIgnoreCase("All")) {
-                query = "SELECT * FROM `tb_students` WHERE course = ? ORDER BY studid DESC";
+                query = "SELECT * FROM `tb_students` WHERE course = ? AND schoolyear = ? ORDER BY studid DESC";
                 database.ps = database.conn.prepareStatement(query);
                 database.ps.setString(1, filter);
+                database.ps.setString(2, sy);
             } else {
-                query = "SELECT * FROM `tb_students` ORDER BY studid DESC";
+                query = "SELECT * FROM `tb_students` WHERE schoolyear = ? ORDER BY studid DESC";
                 database.ps = database.conn.prepareStatement(query);
+                database.ps.setString(1, sy);
             }
             
             database.rs =  database.ps.executeQuery();
@@ -71,7 +76,7 @@ public class students {
          try{
              database.openConn();
             
-            query = "INSERT INTO `tb_students`(schoolid,fname, mname,lname, course, username, password, status)values(?,?,?,?,?,?,?,?)";
+            query = "INSERT INTO `tb_students`(schoolid,fname, mname,lname, course, username, password, status, schoolyear)values(?,?,?,?,?,?,?,?,?)";
             
             database.ps =  database.conn.prepareStatement(query);
             database.ps.setString(1, model.getSchoolid());
@@ -82,6 +87,7 @@ public class students {
             database.ps.setString(6, model.getUsername());
             database.ps.setString(7, model.getPassword());
             database.ps.setString(8, "Registered");
+            database.ps.setString(9, model.getSchoolYear()); 
              
             database.ps.executeUpdate();
       
@@ -114,7 +120,7 @@ public class students {
         try{
             database.openConn();
             
-            query = "UPDATE `tb_students` SET schoolid =?, fname = ?, mname = ?, lname = ?, course = ?,username = ?, password = ?, status = ? WHERE studid = ?";
+            query = "UPDATE `tb_students` SET schoolid =?, fname = ?, mname = ?, lname = ?, course = ?,username = ?, password = ?, status = ?, schoolyear = ? WHERE studid = ?";
             database.ps = database.conn.prepareStatement(query);
 
                 database.ps.setString(1, model.getSchoolid() );
@@ -125,7 +131,8 @@ public class students {
                 database.ps.setString(6, model.getUsername());
                 database.ps.setString(7, model.getPassword());
                 database.ps.setString(8, "Registered");
-                database.ps.setInt(9, StudentRecords.student_id );
+                database.ps.setString(9, model.getSchoolYear());
+                database.ps.setInt(10, StudentRecords.student_id );
 
                 database.ps.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Update successfully");
@@ -172,6 +179,29 @@ public class students {
          } catch ( SQLException e ) {
             JOptionPane.showMessageDialog(null, e);
         } finally {
+            database.closeConn();
+        }
+    }
+    
+    public static void StudentSchoolYear(){
+        try{
+            database.openConn();
+            
+            String query = "SELECT * FROM `tb_schoolyear` ";
+            database.ps = database.conn.prepareStatement(query);
+            database.rs =  database.ps.executeQuery();
+            
+            while(database.rs.next()) {
+//                student_sy.addItem(database.rs.getString("sy"));
+                if (database.rs.getInt("isActive") == 1) {
+                    student_sy.addItem(database.rs.getString("sy"));
+                    sy = database.rs.getString("sy");
+                }
+            }
+            
+        }catch(SQLException error){
+            JOptionPane.showMessageDialog(null, error);
+        }finally {
             database.closeConn();
         }
     }

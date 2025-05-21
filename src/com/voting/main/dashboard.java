@@ -6,6 +6,7 @@
 package com.voting.main;
 
 import com.voting.candidates.Candidates;
+import com.voting.model.SchoolYearModel;
 import com.voting.result.Result;
 import com.voting.schoolyear.SchoolYear;
 import com.voting.studentrecords.StudentRecords;
@@ -15,20 +16,25 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import sun.applet.Main;
 public class dashboard extends javax.swing.JFrame {
+//private dashboard dashboard; 
 private StudentRecords StudentRecords; 
 private Candidates Candidates; 
 private Result Result; 
-private SchoolYear SchoolYearr; 
-public static String SchoolYear = "";
+private SchoolYear SchoolYear; 
+//public static String SchoolYear = "";
+public static SchoolYearModel model;
+public static dashboard dashboard_view;
 
-
-    public dashboard() {
+    public dashboard(SchoolYearModel model) {
         initComponents();
+        this.model = model;
         
 //        GlassPanePopup.install(this);
-        setExtendedState(MAXIMIZED_BOTH);
+//        setExtendedState(MAXIMIZED_BOTH);
+
+//        System.out.print(model.getSchoolyear());
         try {
-            Result = new Result();
+            Result = new Result(this.model);
             VotingDesktop.add(Result);
             Result.setVisible(true);
             Result.setMaximum(true);
@@ -36,7 +42,30 @@ public static String SchoolYear = "";
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }        
     }
-
+    
+    public void closeForms() {
+        if (Result != null) {
+            if (Result.isVisible()) {
+                Result.dispose();
+            }
+        }
+        if (StudentRecords != null) {
+            if (StudentRecords.isVisible()) {
+                StudentRecords.dispose();
+            }
+        }
+         if (Candidates != null) {
+            if (Candidates.isVisible()) {
+                Candidates.dispose();
+            }
+        }
+        if (SchoolYear != null) {
+            if (SchoolYear.isVisible()) {
+                SchoolYear.dispose();
+            }
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -192,38 +221,49 @@ public static String SchoolYear = "";
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-      try {
-            StudentRecords = new StudentRecords();
-            VotingDesktop.add(StudentRecords);
-            StudentRecords.setVisible(true);
-            StudentRecords.setMaximum(true);
-        } catch (PropertyVetoException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        if (StudentRecords != null && StudentRecords.isVisible()) {
+        } else {
+            try {
+                StudentRecords = new StudentRecords();
+                closeForms();
+                VotingDesktop.add(StudentRecords);
+                StudentRecords.setVisible(true);
+                StudentRecords.setMaximum(true);
+            } catch (PropertyVetoException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        
-        try {
-            Candidates = new Candidates();
-            VotingDesktop.add(Candidates);
-            Candidates.setVisible(true);
-            Candidates.setMaximum(true);
+        if (Candidates != null && Candidates.isVisible()) {
+        } else {
+            try {
+                Candidates = new Candidates();
+                closeForms();
+                VotingDesktop.add(Candidates);
+                Candidates.setVisible(true);
+                Candidates.setMaximum(true);
 
-        } catch (PropertyVetoException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (PropertyVetoException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
-        try {
-            Result = new Result();
-            VotingDesktop.add(Result);
-            Result.setVisible(true);
-            Result.setMaximum(true);
+        if (Result != null && Result.isVisible()) {
+        } else {
+            try {
+                Result = new Result(this.model);
+                closeForms();
+                VotingDesktop.add(Result);
+                Result.setVisible(true);
+                Result.setMaximum(true);
 
-        } catch (PropertyVetoException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (PropertyVetoException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_jLabel4MouseClicked
 
@@ -233,46 +273,26 @@ public static String SchoolYear = "";
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
-        try {
-            SchoolYearr = new SchoolYear();
-            VotingDesktop.add(SchoolYearr);
-            SchoolYearr.setVisible(true);
-            SchoolYearr.setMaximum(true);
+        if (SchoolYear != null && SchoolYear.isVisible()) {
+        } else {
+            try {
+                SchoolYear = new SchoolYear();
+                closeForms();
+                VotingDesktop.add(SchoolYear);
+                SchoolYear.setVisible(true);
+                SchoolYear.setMaximum(true);
 
-        } catch (PropertyVetoException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (PropertyVetoException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_jLabel6MouseClicked
 
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(dashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new dashboard().setVisible(true);
+                new dashboard(null).setEnabled(true);
             }
         });
     }

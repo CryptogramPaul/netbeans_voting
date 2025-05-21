@@ -6,6 +6,7 @@
 package com.voting.schoolyear;
 
 import com.voting.controller.schoolyear;
+import com.voting.model.SchoolYearModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -13,6 +14,7 @@ public class SchoolYear extends javax.swing.JInternalFrame {
 public static DefaultTableModel tbm_sy;
 public static int OperationUpdate = 0;
 public static int sy_id;
+SchoolYearModel model = new SchoolYearModel();
     public SchoolYear() {
         initComponents();
         
@@ -201,10 +203,11 @@ public static int sy_id;
     }//GEN-LAST:event_table_schoolyearMousePressed
 
     private void save_syMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_save_syMouseClicked
+       
         if(OperationUpdate == 0){
-            schoolyear.AddSchoolYear();
+            schoolyear.AddSchoolYear(model);
         }else{
-            schoolyear.UpdateSchoolYear();
+            schoolyear.UpdateSchoolYear(model);
         }
     }//GEN-LAST:event_save_syMouseClicked
 
@@ -218,7 +221,7 @@ public static int sy_id;
         SchoolYear.sy_id = (int) SchoolYear.table_schoolyear.getValueAt(row, 0);
 
         if (dialogButton == JOptionPane.YES_OPTION) {
-            schoolyear.delete();
+            schoolyear.delete(model);
         }
     }//GEN-LAST:event_sy_deleteMouseClicked
 
@@ -230,7 +233,7 @@ public static int sy_id;
         //       Username.setText("");
         //       Password.setText("");
         //       showRecord();
-        schoolyear.refresh();
+        schoolyear.refresh(model);
     }//GEN-LAST:event_RefreshMouseClicked
 
     private void RefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshActionPerformed

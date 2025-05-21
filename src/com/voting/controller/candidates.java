@@ -30,18 +30,19 @@ import javax.swing.table.DefaultTableModel;
 
 public class candidates {
     private static String query;
+    private static String sy;
     
-     public static void showrecord() {  
+    public static void showrecord() {  
         tbm_candidates.setRowCount(0);  
         try{            
             
             database.openConn();
             
            
-            query = "SELECT * FROM `tb_candidates` ORDER BY canid DESC";
+            query = "SELECT * FROM `tb_candidates` WHERE sy = ? ORDER BY canid DESC";
             database.ps = database.conn.prepareStatement(query);
+            database.ps.setString(1, sy);
             database.rs =  database.ps.executeQuery();
-
             while (database.rs.next() ) {
                 tbm_candidates.addRow(new Object[]{
                         database.rs.getInt("canid"),
@@ -75,9 +76,10 @@ public class candidates {
         try{            
             database.openConn();
             
-            query = "SELECT * FROM `tb_candidates` WHERE `position` = ? ORDER BY canid DESC ";
+            query = "SELECT * FROM `tb_candidates` WHERE `position` = ? AND sy = ? ORDER BY canid DESC ";
             database.ps = database.conn.prepareStatement(query);
             database.ps.setString(1, Filter);
+            database.ps.setString(2, sy);
             database.rs =  database.ps.executeQuery();
 
             while (database.rs.next() ) {
@@ -260,6 +262,29 @@ public class candidates {
          } catch ( SQLException e ) {
             JOptionPane.showMessageDialog(null, e);
         } finally {
+            database.closeConn();
+        }
+    }
+    
+    public static void CandidateSchoolYear(){
+        try{
+            database.openConn();
+            
+            String query = "SELECT * FROM `tb_schoolyear` ";
+            database.ps = database.conn.prepareStatement(query);
+            database.rs =  database.ps.executeQuery();
+            
+            while(database.rs.next()) {
+//                student_sy.addItem(database.rs.getString("sy"));
+                if (database.rs.getInt("isActive") == 1) {
+                    schoolyear.addItem(database.rs.getString("sy"));
+                    sy = database.rs.getString("sy");
+                }
+            }
+            
+        }catch(SQLException error){
+            JOptionPane.showMessageDialog(null, error);
+        }finally {
             database.closeConn();
         }
     }

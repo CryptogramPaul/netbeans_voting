@@ -2,6 +2,7 @@ package com.voting.controller;
 
 import com.voting.connection.database;
 import com.voting.main.dashboard;
+import com.voting.model.SchoolYearModel;
 import com.voting.schoolyear.SchoolYear;
 import static com.voting.schoolyear.SchoolYear.isActive;
 import static com.voting.schoolyear.SchoolYear.save_sy;
@@ -49,14 +50,14 @@ public class schoolyear {
         }
 
     }
-    public static void refresh(){
+    public static void refresh(SchoolYearModel model){
         showrecord();
         sy.setText("");
         isActive.setSelected(false);
         sy_delete.setEnabled(false);
         save_sy.setIcon(new ImageIcon(schoolyear.class.getResource("/com/voting/assets/icons/buttons/btn-save.png")));
         OperationUpdate = 0;
-        schoolyear();
+        schoolyear(model);
     }
     
      private static int getCount(String query) throws SQLException {
@@ -69,7 +70,7 @@ public class schoolyear {
     }
     
     
-    public static void AddSchoolYear(){
+    public static void AddSchoolYear(SchoolYearModel model){
         //  Not Active = 0, Active = 1      
          try{
             database.openConn();
@@ -96,7 +97,7 @@ public class schoolyear {
                 database.ps.setInt(2, _isActive);
                 database.ps.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Save successfully");
-                refresh();   
+                refresh(model);   
              }else{
                 JOptionPane.showMessageDialog(null, "Other school year is still active, you can't activate new school year.");
              }
@@ -125,7 +126,7 @@ public class schoolyear {
         }
     }
 
-    public static void UpdateSchoolYear() {
+    public static void UpdateSchoolYear(SchoolYearModel model) {
          try{
             database.openConn();
             
@@ -152,7 +153,7 @@ public class schoolyear {
                 database.ps.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Update successfully");
                 
-                refresh();
+                refresh(model);
             }else{
                 JOptionPane.showMessageDialog(null, "Other school year is still active, you can't activate new school year.");
             }
@@ -163,7 +164,7 @@ public class schoolyear {
         }
     }
     
-    public static void delete() {
+    public static void delete(SchoolYearModel model) {
         try{
             database.openConn();
             
@@ -174,7 +175,7 @@ public class schoolyear {
             database.ps.executeUpdate();
             
             JOptionPane.showMessageDialog(null, "Delete Successfully");
-            refresh();
+            refresh(model);
             
          } catch ( SQLException e ) {
             JOptionPane.showMessageDialog(null, e);
@@ -183,7 +184,8 @@ public class schoolyear {
         }
     }
     
-    public static void schoolyear(){
+    public static void schoolyear(SchoolYearModel model){
+        
         try{
             database.openConn();
             
@@ -192,10 +194,7 @@ public class schoolyear {
             database.rs =  database.ps.executeQuery();
             
             while(database.rs.next()) {
-                dashboard.SchoolYear = database.rs.getString("sy");
-//                if (database.rs.getInt("isActive") == 1) {
-//                    schoolyear_box.setSelectedItem(database.rs.getString("sy"));
-//                }
+                model.setSchoolyear (database.rs.getString("sy") );
             }
             
         }catch(SQLException error){
